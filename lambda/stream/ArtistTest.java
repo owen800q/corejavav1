@@ -81,10 +81,14 @@ public class ArtistTest {
         Optional<Integer> num = numList.stream().filter((Integer n) -> n > 10).findFirst();
         Logger.getGlobal().info("" + num);
 
+        Stream.of("one", "two", "three", "four")
+                .map(str -> str.toUpperCase())
+                .forEach(System.out::println);
+
         /**
          * Sequence of Stream calls (duplicated method)
          */
-        List<String> list = Stream.of("one", "two", "three", "four")
+        List<String> list = Stream.of("1one", "2two", "three", "four")
                 .filter(e -> e.length() > 3)
                 .peek(e -> System.out.println("Filtered value: " + e))
                 .map(String::toUpperCase)
@@ -93,7 +97,7 @@ public class ArtistTest {
 
         //list.stream().forEach(System.out::println);
         /**
-         * Simple
+         * map accept a function
          */
         Stream.of("one", "two", "three", "four")
                 .filter(e -> e.length() > 3)
@@ -101,7 +105,13 @@ public class ArtistTest {
                 .map(String::toUpperCase)
                 .peek(e -> System.out.println("Mapped value: " + e))
                 .forEach(System.out::println);
-
+        /**
+         * check if elements begin with digit.
+         */
+        list.stream().filter(c -> Character.isDigit(c.charAt(0)))
+                .collect(Collectors.toList())
+                .stream()
+                .forEach(f -> System.out.println("String begin digit" + f));
 
     }
 
