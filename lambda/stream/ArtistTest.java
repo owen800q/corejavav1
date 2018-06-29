@@ -81,6 +81,7 @@ public class ArtistTest {
         Optional<Integer> num = numList.stream().filter((Integer n) -> n > 10).findFirst();
         Logger.getGlobal().info("" + num);
 
+
         Stream.of("one", "two", "three", "four")
                 .map(str -> str.toUpperCase())
                 .forEach(System.out::println);
