@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Refactor collection-based tasks to stream-based implementation
@@ -24,14 +25,18 @@ public class RefactorLegacy {
 
         //System.out.println(aSet);
         //Refactor the method findLongTracks
-        aSet = anotherStreamFindLongTracks(albums);
+        aSet = nonNestedStreamOperation(albums);
         System.out.println(aSet);
-
+        aSet = albums.stream()
+                .flatMap(a -> (a.getTracks()).stream())
+                .filter(t -> t.getLength() > 60)
+                .map(t -> t.getName())
+                .collect(Collectors.toSet());
+        System.out.println(aSet);
 
     }
 
-     static Set<String> normalFindLongTracks(List<Album> albums)
-    {
+    static Set<String> normalFindLongTracks(List<Album> albums) {
 
         Set<String> trackNames = new HashSet<>();
         for (Album album : albums) {
@@ -41,26 +46,29 @@ public class RefactorLegacy {
                 }
             }
         }
-     return trackNames;
+        return trackNames;
     }
 
-     static Set<String> streamFindLongTracks(List<Album> albums)
-    {
+    static Set<String> streamFindLongTracks(List<Album> albums) {
         Set<String> trackNames = new HashSet<>();
 
         albums.stream()
                 .forEach(a -> a.getTracks()
                         .forEach(track -> {
-                            if (track.getLength() > 60)
-                            {
+                            if (track.getLength() > 60) {
                                 trackNames.add(track.getName());
                             }
                         }));
         return trackNames;
     }
 
-     static Set<String> anotherStreamFindLongTracks(List<Album> albums)
-    {
+    /**
+     * Another simple stream implementation.
+     *
+     * @param albums
+     * @return
+     */
+    static Set<String> anotherStreamFindLongTracks(List<Album> albums) {
         Set<String> trackNames = new HashSet<>();
         albums.stream()
                 .forEach(a -> a.getTracks().stream()
@@ -70,4 +78,30 @@ public class RefactorLegacy {
                         }));
         return trackNames;
     }
+
+    //Total there have N X M streams
+    //N: album stream M track stream
+    protected static Set<String> mapAddSet(List<Album> albums) {
+        Set<String> trackNames = new HashSet<>();
+        albums.stream()
+                .forEach(a -> {
+                    a.getTracks().stream()
+                            .filter(t -> t.getLength() > 60)
+                            .map(t -> t.getName())
+                            .forEach(name -> trackNames.add(name));
+                });
+        return trackNames;
+    }
+
+    protected static Set<String> nonNestedStreamOperation(List<Album> albums) {
+        Set<String> trackNames = new HashSet<>();
+        albums.stream()
+                .flatMap(a -> (a.getTracks()).stream())
+                .filter(t -> t.getLength() > 60)
+                .map(t -> t.getName())
+                .forEach(name -> trackNames.add(name));
+        ;
+        return trackNames;
+    }
+
 }
