@@ -10,6 +10,9 @@ public class Album {
 
     private String name;
 
+    public String getName() {
+        return name;
+    }
 
     private ArrayList<Track> tracks;
     private ArrayList<Artist> musicians;
