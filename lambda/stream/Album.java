@@ -43,10 +43,10 @@ public class Album {
     }
 
 
-    protected  List<Track> getTracks(){return this.tracks;}
+    public List<Track> getTracks(){return this.tracks;}
 
 
-    protected void addTrack(Track track)
+    public void addTrack(Track track)
     {
         this.tracks.add(track);
     }

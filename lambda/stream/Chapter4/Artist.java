@@ -1,14 +1,12 @@
-package stream;
+package stream.Chapter4;
 
-
-import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class Artist
 {
 
     private String name;
     private String origin;
+
 
     protected Artist(String aName, String aOrigin)
     {
@@ -19,16 +17,16 @@ public class Artist
 
 
 
-    public String getName() {
+    protected String getName() {
         return name;
     }
 
-    public String getOrigin() {
+    protected String getOrigin() {
         return origin;
     }
 
 
-    public boolean isFrom(String city)
+    protected boolean isFrom(String city)
     {
         return city.equals(this.getOrigin());
     }

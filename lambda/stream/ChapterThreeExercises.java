@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Level;
 
 public class ChapterThreeExercises {
 
-
+    private static final Logger logger =(Logger) LogManager.getLogger(ChapterThreeExercises.class);
     public static void main(String args[])
     {
         final Level level = Level.INFO;
+        logger.setLevel(Level.DEBUG);
         //test 1
         Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5);
-        Logger.getGlobal().log(level, () ->
-                String.format("function: addUp return: %d", addUp(numbers)));
+        logger.debug(()-> String.format("function: addUp return: %d", addUp(numbers)));
 
         //test 2
         Stream<Artist> artistStream = Stream.of(new Artist("kwan", "Hong Kong"), new Artist("wika", "London"));
-        System.out.println(getNameAndOrigin(artistStream));
+        logger.debug(()->getNameAndOrigin(artistStream));
 
         //test 3
         List<Album>albumList=new ArrayList<>();
@@ -33,14 +34,15 @@ public class ChapterThreeExercises {
         albumList.get(0).addTrack(new Track(100,"track3"));
         albumList.get(1).addTrack(new Track(100,"track1"));
         getAlbumsWithAtMostThreeTracks(albumList.stream(),2).stream()
-                .forEach(album -> System.out.println((album.getName())));
+                .forEach(album -> logger.debug(()->((album.getName()))));
 
 
        //test 6
-        Logger.getGlobal().info(String.valueOf(countLowercase("AbC")));
+
+        logger.debug(()->String.valueOf(countLowercase("AbC")));
 
         //test 7
-        Logger.getGlobal().info("@Test 7"+" "+find(Stream.of("ABC","abC","abc")));
+        logger.debug(()->"@Test 7"+" "+find(Stream.of("ABC","abC","abc")));
     }
 
     /**

@@ -114,7 +114,36 @@ public class ArtistTest {
                 .stream()
                 .forEach(f -> System.out.println("String begin digit" + f));
 
+
+       Logger.getGlobal().info("----------Formatting---------------");
+       Logger.getGlobal().info(formatName(allArtist));
+       Logger.getGlobal().info(streamFormatName((allArtist)));
     }
+
+    //Normal solution
+    static String formatName(List<Artist> artists)
+    {
+        StringBuilder builder =new StringBuilder("[");
+        for (Artist artist: artists)
+        {
+            if(builder.length()>1)
+                builder.append(", ");
+            String name=artist.getName();
+            builder.append(name);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+
+
+    static String streamFormatName(List<Artist>artists)
+    {
+        return artists.stream()
+                      .map(Artist::getName)
+                      .collect(Collectors.joining(", ","[","]"));
+    }
+
 
 
 }
